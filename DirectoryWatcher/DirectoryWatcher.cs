@@ -9,7 +9,7 @@ using System.Threading;
 namespace DirectoryWatcher
 {
 
-    public class DirectoryWatcher
+    public class DirectoryWatcher : IDirectoryWatcher
     {
 
         private string _path;

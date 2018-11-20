@@ -8,6 +8,6 @@ namespace DirectoryWatcher
 {
     interface IDirectoryWatcher
     {
-        
+        void Start();
     } 
 }

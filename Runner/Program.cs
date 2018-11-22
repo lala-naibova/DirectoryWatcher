@@ -9,12 +9,15 @@ namespace Runner
         {
             string[] old = {"a","b","c","d","e" };
             string[] newLetters = {"z","d","j","m" };
+            List<string> newFiles;
+            List<string> deleted;
 
-            List<string> list = DirectoryWatcher.FindTheNewestFiles(old, newLetters);
-            foreach (string item in list)
+            DirectoryWatcher.PickTheChangesOverTheDirectory(old, newLetters, out deleted, out newFiles);
+            foreach (string item in deleted)
             {
                 Console.WriteLine(item);
             }
+            Console.ReadKey();
         }
     }
 }

@@ -46,36 +46,26 @@ namespace FileUtils
             }
             
         }
-
-        public static List<string> FindTheNewestFiles(string[] oldFiles, string[] currentFiles)
-        {
-            List<string> addedFiles =new List<string>();
-           
+        public static void PickTheChangesOverTheDirectory(string[] oldFiles, string[] currentFiles, out List<string> removed,out List<string> newest)
+        {   
+            newest = new List<string>();
+            removed = new List<string>();
             foreach (string item in currentFiles)
             {
                 if (!oldFiles.Contains(item))
                 {
-                    addedFiles.Add(item);
+                    newest.Add(item);
                 }
             }
-                        
-            return addedFiles;
-        }
-
-        public static List<string> FindRemovedFiles(string[] oldest, string[] currentFiles)
-        {
-            List<string> removed = new List<string>();
-
-            foreach (string file in oldest)
+            foreach (string file in oldFiles)
             {
                 if (!currentFiles.Contains(file))
                 {
                     removed.Add(file);
                 }
             }
-
-            return removed;
         }
+
     }
 
 }

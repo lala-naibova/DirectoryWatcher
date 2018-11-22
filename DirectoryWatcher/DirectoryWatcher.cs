@@ -47,32 +47,19 @@ namespace FileUtils
             
         }
 
+
         public static List<string> FindTheNewestFiles(string[] oldFiles, string[] currentFiles)
         {
             List<string> addedFiles =new List<string>();
-           // List<string> removedFiles =new List<string>();
-            
-            bool found = false;
-            
-            for (int currIndex = 0; currIndex < currentFiles.Length; currIndex++)
+           
+            foreach (string item in currentFiles)
             {
-                for (int oldIndex = 0; oldIndex < oldFiles.Length; oldIndex++)
+                if (!oldFiles.Contains(item))
                 {
-                    
-                    if (currentFiles[currIndex]==oldFiles[oldIndex])
-                    {
-                        found = true;
-                        break;
-                    }
+                    addedFiles.Add(item);
                 }
-                
-                if (!found)
-                {
-                    addedFiles.Add(currentFiles[currIndex]);
-                }
-                //reset
-                found = false;
             }
+                        
             return addedFiles;
         }
     }

@@ -47,7 +47,6 @@ namespace FileUtils
             
         }
 
-
         public static List<string> FindTheNewestFiles(string[] oldFiles, string[] currentFiles)
         {
             List<string> addedFiles =new List<string>();
@@ -61,6 +60,21 @@ namespace FileUtils
             }
                         
             return addedFiles;
+        }
+
+        public static List<string> FindRemovedFiles(string[] oldest, string[] currentFiles)
+        {
+            List<string> removed = new List<string>();
+
+            foreach (string file in oldest)
+            {
+                if (!currentFiles.Contains(file))
+                {
+                    removed.Add(file);
+                }
+            }
+
+            return removed;
         }
     }
 

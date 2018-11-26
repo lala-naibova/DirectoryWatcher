@@ -15,6 +15,11 @@ namespace FileUtils
     {
 
         private string _path;
+
+        public event Action<List<string>> NewFilesNames;
+
+        public event Action<List<string>> RemovedFilesNames;
+
         public TimeSpan Interval { get; set; }
         public bool IsFileNameSensitive { get; set; }
         public List<string> listOfMyNewFiles=new List<string>();
@@ -25,7 +30,7 @@ namespace FileUtils
             this._path = path;
         }
 
-        public void Start(Action<int,int> countHandler)
+        public void Start()
         {
             string[] oldFiles = Directory.GetFiles(this._path);
 
@@ -40,8 +45,17 @@ namespace FileUtils
                 bool hasDiff=PickTheChangesOverTheDirectory(oldFiles, currentFiles, out removedFiles, out newFiles);
                 if (hasDiff)
                 {
-                    countHandler(newFiles.Count, removedFiles.Count);
+                    if (NewFilesNames !=null && newFiles.Count != 0)
+                    {
+                        NewFilesNames(newFiles);
+                    }
+                    if (RemovedFilesNames!=null && removedFiles.Count!=0)
+                    {
+                        RemovedFilesNames(removedFiles);
+                    }
+                                
                 }
+
                 oldFiles = currentFiles;
             }
             

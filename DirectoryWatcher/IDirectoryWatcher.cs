@@ -8,6 +8,6 @@ namespace FileUtils
 {
     interface IDirectoryWatcher
     {
-        void Start();
+        void Start(Action<int, int> countHandler);
     } 
 }

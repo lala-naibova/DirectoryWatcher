@@ -25,28 +25,28 @@ namespace FileUtils
             this._path = path;
         }
 
-        public void Start()
+        public void Start(Action<int,int> countHandler)
         {
             string[] oldFiles = Directory.GetFiles(this._path);
+
+            List<string> newFiles;
+            List<string> removedFiles;
 
             while (true)
             {
                 Thread.Sleep(this.Interval);
                 string[] currentFiles = Directory.GetFiles(this._path);
-
                 
-                foreach (string currentFile in currentFiles)
+                bool hasDiff=PickTheChangesOverTheDirectory(oldFiles, currentFiles, out removedFiles, out newFiles);
+                if (hasDiff)
                 {
-                    if (!oldFiles.Contains(currentFile))
-                    {
-                        listOfMyNewFiles.Add(currentFile);
-                    }
+                    countHandler(newFiles.Count, removedFiles.Count);
                 }
                 oldFiles = currentFiles;
             }
             
         }
-        public static void PickTheChangesOverTheDirectory(string[] oldFiles, string[] currentFiles, out List<string> removed,out List<string> newest)
+        public static bool PickTheChangesOverTheDirectory(string[] oldFiles, string[] currentFiles, out List<string> removed,out List<string> newest)
         {   
             newest = new List<string>();
             removed = new List<string>();
@@ -64,6 +64,9 @@ namespace FileUtils
                     removed.Add(file);
                 }
             }
+
+            return newest.Count != 0 || removed.Count != 0;
+
         }
 
     }

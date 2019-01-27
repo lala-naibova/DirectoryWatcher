@@ -16,14 +16,14 @@ namespace FileUtils
 
         private string _path;
 
-        public event Action<List<string>> WhenNewFilesAppear;
-
-        public event Action<List<string>> WhenRemovedFileDetected;
+        //public event Action<object, NewFilesInfo> WhenNewFilesAppear;
+        public event EventHandler<NewFilesInfoEventArgs> WhenNewFilesAppear;
+        public event Action<object, List<string>> WhenRemovedFileDetected;
 
         public TimeSpan Interval { get; set; }
         public bool IsFileNameSensitive { get; set; }
         public List<string> listOfMyNewFiles=new List<string>();
-
+         
         public DirectoryWatcher(string path, TimeSpan interval)
         {
             this.Interval = interval;
@@ -41,17 +41,19 @@ namespace FileUtils
             {
                 Thread.Sleep(this.Interval);
                 string[] currentFiles = Directory.GetFiles(this._path);
-                
+
                 bool hasDiff=PickTheChangesOverTheDirectory(oldFiles, currentFiles, out removedFiles, out newFiles);
                 if (hasDiff)
                 {
                     if (WhenNewFilesAppear !=null && newFiles.Count != 0)
                     {
-                        WhenNewFilesAppear(newFiles);
+                        NewFilesInfoEventArgs fileInfo = new NewFilesInfoEventArgs();
+                        fileInfo.fileNames = newFiles;
+                        WhenNewFilesAppear(this, fileInfo);
                     }
                     if (WhenRemovedFileDetected!=null && removedFiles.Count!=0)
                     {
-                        WhenRemovedFileDetected(removedFiles);
+                        WhenRemovedFileDetected(this, removedFiles);
                     }
                                 
                 }

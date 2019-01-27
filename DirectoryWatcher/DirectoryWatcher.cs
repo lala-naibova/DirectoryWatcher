@@ -16,9 +16,9 @@ namespace FileUtils
 
         private string _path;
 
-        public event Action<List<string>> NewFilesNames;
+        public event Action<List<string>> WhenNewFilesAppear;
 
-        public event Action<List<string>> RemovedFilesNames;
+        public event Action<List<string>> WhenRemovedFileDetected;
 
         public TimeSpan Interval { get; set; }
         public bool IsFileNameSensitive { get; set; }
@@ -45,13 +45,13 @@ namespace FileUtils
                 bool hasDiff=PickTheChangesOverTheDirectory(oldFiles, currentFiles, out removedFiles, out newFiles);
                 if (hasDiff)
                 {
-                    if (NewFilesNames !=null && newFiles.Count != 0)
+                    if (WhenNewFilesAppear !=null && newFiles.Count != 0)
                     {
-                        NewFilesNames(newFiles);
+                        WhenNewFilesAppear(newFiles);
                     }
-                    if (RemovedFilesNames!=null && removedFiles.Count!=0)
+                    if (WhenRemovedFileDetected!=null && removedFiles.Count!=0)
                     {
-                        RemovedFilesNames(removedFiles);
+                        WhenRemovedFileDetected(removedFiles);
                     }
                                 
                 }

@@ -22,7 +22,7 @@ basic live directory watcher library in c#
 
     static void WriteToConsole(object sender, NewFilesInfoEventArgs ea)
     { 
-        Console.WriteLine(string.Join("\n", ea.fileNames));
+        Console.WriteLine(string.Join("\n", ea.FileNames));
     }
 ```
 
